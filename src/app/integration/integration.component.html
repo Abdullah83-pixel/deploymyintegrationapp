@@ -1,0 +1,85 @@
+<div class="container-fluid">
+    <h2>Login Form</h2>
+
+    <form [formGroup]="integrationForm">
+
+
+        <div class="form-group">
+            <label>Friendly Name:</label>
+            <input class="form-control" formControlName="fname" type="text" placeholder="Friendly Name">
+            <div *ngIf="isSubmitted" class="text-danger">
+                <span class="pull-right">{{ integrationForm.controls.fname['errorMessage'] }}</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Okta Url:</label>
+            <input class="form-control" formControlName="okta_url" type="text" placeholder="Okta URL">
+            <div *ngIf="isSubmitted" class="text-danger">
+                <span class="pull-right">{{ integrationForm.controls.okta_url['errorMessage'] }}</span>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label>API Key:</label>
+            <div class="input-group">
+                <input [type]="hide ? 'password' : 'text'" class="form-control" formControlName="okta_key"
+                    placeholder="Enter Key">
+                <div class="input-group-append">
+                    <span class="input-group-text border-0" (click)="hide = !hide"><i
+                            [ngClass]="hide ? 'fa fa-fw fa-eye' : 'fa fa-fw fa-eye-slash'"></i></span>
+                </div>
+            </div>
+            <div *ngIf="isSubmitted" class="text-danger">
+                <span class="pull-right">{{ integrationForm.controls.okta_key['errorMessage'] }}</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <b>Enable Single Signon</b> :
+            <span>
+                <input type="checkbox" id="signon" formControlName="signon_enable" name="isChecked" />
+                <label for="signon"></label>
+            </span>
+        </div>
+
+        <div class="form-group" *ngIf="integrationForm.controls['signon_enable'].value">
+            <div class="form-group">
+                <div class="row">
+                    <div>Select the preffered SSO method</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-4 icheck-success">
+                        <input type="radio" formControlName="sso_type" name="sso_type" value="sso" id="sso">
+                        <label for="sso"><b>Open ID</b></label>
+                    </div>
+                    <div class="col-lg-4 icheck-success">
+                        <input type="radio" formControlName="sso_type" name="sso_type" value="saml" id="saml">
+                        <label for="saml"><b>SAML</b></label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" *ngIf="integrationForm.controls['sso_type'].value == 'sso'">
+                <label>Client ID:</label>
+                <input type="text" formControlName="client_id" placeholder="Client ID" class="form-control">
+                <div *ngIf="isSubmitted" class="text-danger">
+                    <span class="pull-right">{{ integrationForm.controls.client_id['errorMessage'] }}</span>
+                </div>
+            </div>
+            <div class="form-group" *ngIf="integrationForm.controls['sso_type'].value == 'saml'">
+                <label>SAML Entity ID:</label>
+                <input type="text" formControlName="entity_id" placeholder="SAML Entity ID" class="form-control">
+                <div *ngIf="isSubmitted" class="text-danger">
+                    <span class="pull-right">{{ integrationForm.controls.entity_id['errorMessage'] }}</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" type="submit" (click)="addApi()">Save</button>
+    </form>
+
+
+</div>
